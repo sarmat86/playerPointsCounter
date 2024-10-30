@@ -1,14 +1,12 @@
-import { Image, StyleSheet, View } from "react-native";
-
-import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import UsersList from "@/components/PlayersList/PlayersList";
-import { useAppState } from "@/context/AppStateContext";
+import UserComponent from "@/components/PointsManager/PointsManager";
+import { View, StyleSheet, Image } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 
-export default function HomeScreen() {
-  const { state } = useAppState();
+export default function PointsCounter() {
+  const { id } = useLocalSearchParams();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
@@ -20,25 +18,29 @@ export default function HomeScreen() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+        <View style={styles.container}>
+          <UserComponent playerId={id as string} />
+        </View>
       </ThemedView>
-      <View style={styles.listView}>
-        <UsersList players={state.players} />
-      </View>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
   },
   reactLogo: {
     height: 200,
@@ -47,5 +49,4 @@ const styles = StyleSheet.create({
     left: 0,
     position: "absolute",
   },
-  listView: {},
 });
